@@ -2,11 +2,11 @@
 class Acao
 {
 private:
-    int id;
-    int* cotacoes;
+    unsigned id;
+    unsigned* cotacoes;
     
 public:
-    Acao(int id, int WCotacoes);
+    Acao(unsigned id, unsigned WCotacoes);
     ~Acao();
 };
 
