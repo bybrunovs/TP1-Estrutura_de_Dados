@@ -1,12 +1,14 @@
 #pragma once
 
 #include "Acao.h"
+#include "TADS/Vector.h"
 
 class Cliente
 {
 private:
-    unsigned id;
-    Acao* carteira;
+    unsigned _id;
+    TADS::Vector<Acao *> _carteira;
+
 public:
     Cliente(unsigned id);
     ~Cliente();
