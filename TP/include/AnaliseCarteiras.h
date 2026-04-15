@@ -1,7 +1,7 @@
 #include "Acao.h"
 #include "Cliente.h"
 #include "TADS/Vector.h"
-#include "Metricas.h"
+#include "Metricas/Metricas.h"
 #include <string>
 
 class AnaliseCarteiras
@@ -12,13 +12,13 @@ private:
     TADS::Vector<Metrica::Metricas> _metricas;
 
 public:
-    AnaliseCarteiras(unsigned wcotacoes, std::string metricas[], unsigned nAcoes, unsigned nClientes);
+    AnaliseCarteiras(unsigned wcotacoes, unsigned nAcoes, unsigned nClientes);
     ~AnaliseCarteiras();
 
-    void AdicionarAcao(Acao &acao);
-    void AdicionarCliente(Cliente &cliente);
-    void AdicionarMetrica(Metrica::Metricas &metrica);
-    void ConsultaCarteira(unsigned IdConsulta, Cliente &cliente, unsigned Nacoes, unsigned Nmetricas,  std::string metricas[],  unsigned peso[]);
+    void AdicionarAcao(unsigned IDAcao);
+    void AdicionarCliente(unsigned IDCliente);
+    void AdicionarMetrica(const std::string& Metrica);
+    void ConsultaCarteira(unsigned IdConsulta, unsigned IDCliente, unsigned Nacoes, unsigned Nmetricas,  const std::string* metricas,  unsigned peso[]);
     void VendaAcao(Cliente &cliente, Acao &acao);
     void COmpraAcao(Cliente &cliente, Acao &acao);
     void CotacaoAcao(Acao &acao, double &preco);

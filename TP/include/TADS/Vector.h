@@ -15,6 +15,11 @@ namespace TADS
         Vector(unsigned capacidade);
         Vector(const Vector &outro);
         void push_back(const T &elemento);
+        T* getElemento(unsigned indice);
+        void setElemento(unsigned indice, const T &valor);
+
+        T& operator[](int indice) const;
+
         ~Vector();
     };
 
