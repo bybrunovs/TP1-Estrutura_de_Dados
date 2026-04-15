@@ -1,7 +1,7 @@
 #include "Acao.h"
 #include "Cliente.h"
-#include "TADS/Vector.h"
-#include "Metricas/Metricas.h"
+#include "Vector.h"
+#include "Metricas.h"
 #include <string>
 
 class AnaliseCarteiras

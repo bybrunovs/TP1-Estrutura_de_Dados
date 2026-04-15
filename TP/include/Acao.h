@@ -1,10 +1,6 @@
 #pragma once
 
-#include "TADS/Vector.h"
-
-
-#include "TADS/Vector.h"
-
+#include "Vector.h"
 class Acao
 {
 private:

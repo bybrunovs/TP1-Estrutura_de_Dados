@@ -1,22 +1,20 @@
 #pragma once
 
-#include <string.h>
+#include <string>
 #include "Acao.h"
 
 namespace Metrica
 {
 
-    unsigned _WCOTACOES;
-
     class Metricas
     {
-    private:
-        unsigned _id;
+    protected:
+        unsigned _WCOTACOES;
 
     public:
-        Metricas();
-        virtual ~Metricas() = default;
-        virtual double calcularMetrica(Acao& acao, unsigned peso) const = 0;
+        Metricas(unsigned WCOTACOES) : _WCOTACOES(WCOTACOES) {}
+        ~Metricas() = default;
+        virtual double calcularMetrica(Acao &acao, unsigned indiceMetrica) = 0;
     };
 
 } // namespace Metrica
