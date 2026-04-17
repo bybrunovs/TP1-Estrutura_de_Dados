@@ -98,6 +98,16 @@ namespace TADS
     }
 
     template <typename T>
+    const T &Vector<T>::operator[](unsigned indice) const
+    {
+        if (indice < _tamanho)
+        {
+            return this->_dados[indice];
+        }
+        throw std::out_of_range("Índice fora dos limites");
+    }
+
+    template <typename T>
     unsigned Vector<T>::tamanho() const
     {
         return this->_tamanho;

@@ -13,5 +13,16 @@ public:
 
     ~Cliente() = default;
 
-    friend std::ostream &operator<<(std::ostream &os, const Acao &acao);
+    unsigned getId() const;
+
+    void adicionarAcao(unsigned IDAcao);
+
+    void removerAcao(unsigned IDAcao);
+
+    bool possuiAcao(unsigned IDAcao) const;
+
+    unsigned getNumeroAcoes() const;
+
+    unsigned getAcaoID(unsigned indice) const;
+    friend std::ostream &operator<<(std::ostream &os, const Cliente &cliente);
 };

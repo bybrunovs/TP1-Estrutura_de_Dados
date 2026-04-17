@@ -30,6 +30,8 @@ namespace TADS
 
         T &operator[](unsigned indice);
 
+        const T &operator[](unsigned indice) const;
+
         unsigned tamanho() const;
 
         ~Vector();
