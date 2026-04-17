@@ -1,6 +1,12 @@
 namespace TADS
 {
     template <typename T>
+    Vector<T>::Vector() : _tamanho(0), _capacidade(0)
+    {
+        this->_dados = nullptr;
+    }
+
+    template <typename T>
     Vector<T>::Vector(unsigned capacidade) : _tamanho(0), _capacidade(capacidade)
     {
         this->_dados = new T[capacidade];
@@ -25,7 +31,23 @@ namespace TADS
             this->_tamanho++;
         }
         else
-            throw std::out_of_range("Capacidade máxima atingida");
+        {
+            if(this->_capacidade == 0)
+            {
+                this->_capacidade = 1;
+            }
+
+            T *_novosDados = new T[this->_capacidade * 2];
+            for (unsigned i = 0; i < this->_tamanho; i++)
+            {
+                _novosDados[i] = this->_dados[i];
+            }
+            delete[] this->_dados;
+            this->_dados = _novosDados;
+            this->_capacidade *= 2;
+            this->_dados[this->_tamanho] = elemento;
+            this->_tamanho++;
+        }
     }
 
     template <typename T>
@@ -66,7 +88,7 @@ namespace TADS
     }
 
     template <typename T>
-    T &Vector<T>::operator[](int indice)
+    T &Vector<T>::operator[](unsigned indice)
     {
         if (indice < _tamanho)
         {

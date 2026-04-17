@@ -1,12 +1,13 @@
-#include "Metricas.h"
+#include "Metrica.h"
 
-namespace Metrica
+namespace Metricas
 {
-    class AVGRET : public Metrica::Metricas
+    class AVGRET : public Metricas::Metrica
     {
-        
+
     public:
         AVGRET(unsigned WCOTACOES);
-        ~AVGRET();
+
+        void calcularMetrica(Acao &acao, unsigned indiceMetrica);
     };
-}
+} // namespace Metrica 

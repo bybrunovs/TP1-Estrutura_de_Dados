@@ -9,10 +9,13 @@ namespace TADS
     {
     private:
         T *_dados;
-        unsigned _tamanho = 0;
-        unsigned _capacidade = 0;
+
+        unsigned _capacidade;
+        unsigned _tamanho;
 
     public:
+        Vector();
+
         Vector(unsigned capacidade);
 
         Vector(const Vector &outro);
@@ -25,7 +28,7 @@ namespace TADS
 
         void deleteElemento(unsigned indice);
 
-        T &operator[](int indice);
+        T &operator[](unsigned indice);
 
         unsigned tamanho() const;
 

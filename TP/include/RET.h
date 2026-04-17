@@ -1,12 +1,13 @@
-#include "Metricas.h"
+#include "Metrica.h"
 
-namespace Metrica
+namespace Metricas
 {
-    class RET : public Metrica::Metricas
+    class RET : public Metricas::Metrica
     {
-        
+
     public:
         RET(unsigned WCOTACOES);
-        ~RET();
+
+        void calcularMetrica(Acao &acao, unsigned indiceMetrica);
     };
-}
+} // namespace Metrica

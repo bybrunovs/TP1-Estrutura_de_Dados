@@ -7,8 +7,8 @@ private:
     unsigned _id;
 
     TADS::Vector<double> _cotacoes;
-    TADS::Vector<double> _PontosMetricas;
-    double _PontosTotaisMetricas;
+    TADS::Vector<unsigned> _PontosMetricas;
+    double _PontosMetrica;
 
 public:
     Acao(unsigned id, unsigned WCotacoes, unsigned nMetricas);

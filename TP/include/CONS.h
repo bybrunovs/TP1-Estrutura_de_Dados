@@ -1,12 +1,13 @@
-#include "Metricas.h"
+#include "Metrica.h"
 
-namespace Metrica
+namespace Metricas
 {
-    class CONS : public Metrica::Metricas
+    class CONS : public Metricas::Metrica
     {
-        
+
     public:
         CONS(unsigned WCOTACOES);
-        ~CONS();
+
+        void calcularMetrica(Acao &acao, unsigned indiceMetrica);
     };
-}
+} // namespace Metrica

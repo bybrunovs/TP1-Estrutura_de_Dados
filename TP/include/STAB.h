@@ -1,12 +1,13 @@
-#include "Metricas.h"
+#include "Metrica.h"
 
-namespace Metrica
+namespace Metricas
 {
-    class STAB : public Metrica::Metricas
+    class STAB : public Metricas::Metrica
     {
-        
+
     public:
         STAB(unsigned WCOTACOES);
-        ~STAB();
+
+        void calcularMetrica(Acao &acao, unsigned indiceMetrica);
     };
-}
+} // namespace Metrica

@@ -3,13 +3,13 @@
 
 int main(int argc, char const *argv[])
 {
-    TADS::Vector<int> vetor(3);
+    TADS::Vector<int> vetor;
 
     vetor.push_back(5);
 
     vetor.push_back(10);
 
-    //vetor.push_back(15);
+    // vetor.push_back(15);
 
     std::cout << "Tamanho do vetor: " << vetor.tamanho() << std::endl;
 
@@ -38,5 +38,13 @@ int main(int argc, char const *argv[])
         std::cout << vetorduplicado[i] << std::endl;
     }
 
+    vetor.push_back(3);
+    vetor.push_back(4);
+    vetor.push_back(6);
+
+        for (unsigned i = 0; i < vetor.tamanho(); i++)
+    {
+        std::cout << vetor[i] << std::endl;
+    }
     return 0;
 }
