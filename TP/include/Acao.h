@@ -13,7 +13,7 @@ private:
 public:
     Acao(unsigned id, unsigned WCotacoes, unsigned nMetricas);
 
-    ~Acao();
+    ~Acao() = default;
 
     double getCotacao(unsigned indice);
 

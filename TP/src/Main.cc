@@ -4,10 +4,6 @@
 #include "AnaliseCarteiras.h"
 #include "Vector.h"
 #include "Metrica.h"
-#include "AVGRET.h"
-#include "CONS.h"
-#include "RET.h"
-#include "STAB.h"
 
 int main(int argc, char *argv[])
 {

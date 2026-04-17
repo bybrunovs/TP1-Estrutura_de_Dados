@@ -4,16 +4,17 @@ AnaliseCarteiras::AnaliseCarteiras(unsigned wcotacoes)
 {
 }
 
-AnaliseCarteiras::~AnaliseCarteiras()
-{
-}
 
 void AnaliseCarteiras::AdicionarAcao(unsigned IDAcao)
 {
+    _entrouA = true;
 }
 
 void AnaliseCarteiras::AdicionarCliente(unsigned IDCliente)
 {
+    if (!_entrouA)
+        throw std::invalid_argument("Entrada inválida: a linha de clientes deve vir após as linhas de ações");
+    _entrouU = true;
 }
 
 void AnaliseCarteiras::AdicionarMetrica(const std::string &Metrica)

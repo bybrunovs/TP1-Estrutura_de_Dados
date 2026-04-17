@@ -1,11 +1,6 @@
 #include "Acao.h"
 #include "Cliente.h"
 #include "Vector.h"
-#include "Metrica.h"
-#include "RET.h"
-#include "AVGRET.h"
-#include "CONS.h"
-#include "STAB.h"
 #include <string>
 
 class AnaliseCarteiras
@@ -18,11 +13,11 @@ private:
 
     unsigned _wcotacoes = 0;
     bool _entrouA = false;
-    bool _entrouC = false;
+    bool _entrouU = false;
 
 public:
     AnaliseCarteiras(unsigned wcotacoes);
-    ~AnaliseCarteiras();
+    ~AnaliseCarteiras() = default;
 
     void AdicionarAcao(unsigned IDAcao);
     void AdicionarCliente(unsigned IDCliente);

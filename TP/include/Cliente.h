@@ -11,7 +11,7 @@ private:
 public:
     Cliente(unsigned id);
 
-    ~Cliente();
+    ~Cliente() = default;
 
     friend std::ostream &operator<<(std::ostream &os, const Acao &acao);
 };

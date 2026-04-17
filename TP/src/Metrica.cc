@@ -18,10 +18,10 @@ public:
     double RET(Acao &acao, unsigned indiceMetrica)
     {
 
-        acao.setPontosMetrica(indiceMetrica, retornoElementar(acao.getCotacao(_WCOTACOES - 1), acao.getCotacao(0)));
+        return retornoElementar(acao.getCotacao(_WCOTACOES - 1), acao.getCotacao(0));
     }
 
-    double AVGRET(Acao &acao, unsigned indiceMetrica)
+    double AVGRET(Acao &acao)
     {
 
         // media dos retornos elementares
@@ -32,10 +32,10 @@ public:
             somaRetornoElementar += retornoElementar(acao.getCotacao(i), acao.getCotacao(i - 1));
         }
         double mediaRetornoElementar = somaRetornoElementar / (_WCOTACOES - 1);
-        acao.setPontosMetrica(indiceMetrica, mediaRetornoElementar);
+        return mediaRetornoElementar;
     }
 
-    double CONS(Acao &acao, unsigned indiceMetrica)
+    double CONS(Acao &acao)
     {
 
         // função indicadora do evento ri > 0
@@ -50,29 +50,24 @@ public:
         }
 
         double consistencia = retornoElementares / (_WCOTACOES - 1);
-        acao.setPontosMetrica(indiceMetrica, consistencia);
+        return consistencia;
     }
 
     double STAB(Acao &acao, unsigned indiceMetrica)
     {
 
         // media dos retornos elementares
-        double somaRetornoElementar = 0.0;
-        for (int i = 1; i < _WCOTACOES; i++)
-        {
-            somaRetornoElementar += (acao.getCotacao(i) / acao.getCotacao(i - 1)) - 1;
-        }
-        double mediaRetornoElementar = somaRetornoElementar / (_WCOTACOES - 1);
+        double mediaRetornoElementar = AVGRET(acao);
 
         // somatorio dos quadrados das diferenças entre os retornos elementares e a média
         double somaQuadradosDiferencas = 0.0;
         for (int i = 1; i < _WCOTACOES; i++)
         {
-            double diferenca = (acao.getCotacao(i) / acao.getCotacao(i - 1)) - 1 - mediaRetornoElementar;
+            double diferenca = retornoElementar(acao.getCotacao(i), acao.getCotacao(i - 1)) - mediaRetornoElementar;
             somaQuadradosDiferencas += diferenca * diferenca;
         }
         double volatilidade = sqrt(somaQuadradosDiferencas / (_WCOTACOES - 1));
         double estabilidade = 1 / (1 + volatilidade);
-        acao.setPontosMetrica(indiceMetrica, estabilidade);
+        return estabilidade;
     }
 };
