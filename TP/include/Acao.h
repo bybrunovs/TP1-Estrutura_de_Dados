@@ -19,9 +19,9 @@ public:
 
     void adicionarCotacao(double &valor);
 
-    void getPontosMetrica(unsigned indice, double &valor);
+    void getPontosMetrica(unsigned indice, const double &valor);
 
-    void setPontosMetrica(unsigned indice, double &valor);
+    void setPontosMetrica(unsigned indice, const double &valor);
 
     bool operator<(const Acao& outra) const;
 

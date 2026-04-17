@@ -13,7 +13,7 @@ class AnaliseCarteiras
 private:
     TADS::Vector<Acao> _acoes;
     TADS::Vector<Cliente> _clientes;
-    TADS::Vector<Metricas::Metrica> _metricas;
+    TADS::Vector<std::string> _metricas;
     TADS::Vector<TADS::Vector<Acao *>> _OrdenacaoMetricas;
 
     unsigned _wcotacoes = 0;

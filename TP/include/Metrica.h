@@ -1,22 +1,27 @@
 #pragma once
 
 #include <string>
+#include <cmath>
 #include "Acao.h"
 
-namespace Metricas
+class Metrica
 {
+protected:
+    unsigned _WCOTACOES;
 
-    class Metrica
+    double retornoElementar(const double cotacaoAtual, const double cotacaoAnterior)
     {
-    protected:
-        unsigned _WCOTACOES;
-        std::string _nomeMetrica;
+        return (cotacaoAtual / cotacaoAnterior) - 1;
+    }
 
-    public:
-        Metrica() : _WCOTACOES(0), _nomeMetrica("") {}
-        Metrica(unsigned WCOTACOES) : _WCOTACOES(WCOTACOES) {}
-        ~Metrica() = default;
-        virtual void calcularMetrica(Acao &acao, unsigned indiceMetrica) {};
-    };
+public:
+    Metrica() : _WCOTACOES(0) {}
+    Metrica(unsigned WCOTACOES) : _WCOTACOES(WCOTACOES) {}
+    ~Metrica() = default;
 
-} // namespace Metrica
+    // Métodos para calcular as métricas
+    double RET(Acao &acao, unsigned indiceMetrica);
+    double AVGRET(Acao &acao, unsigned indiceMetrica);
+    double CONS(Acao &acao, unsigned indiceMetrica);
+    double STAB(Acao &acao, unsigned indiceMetrica);
+};
