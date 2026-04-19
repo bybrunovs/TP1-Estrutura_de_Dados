@@ -1,13 +1,13 @@
 namespace TADS
 {
     template <typename T>
-    Vector<T>::Vector() : _tamanho(0), _capacidade(0)
+    Vector<T>::Vector() : _capacidade(0), _tamanho(0)
     {
         this->_dados = nullptr;
     }
 
     template <typename T>
-    Vector<T>::Vector(unsigned capacidade) : _tamanho(0), _capacidade(capacidade)
+    Vector<T>::Vector(unsigned capacidade) : _capacidade(capacidade), _tamanho(0)
     {
         this->_dados = new T[capacidade];
     }

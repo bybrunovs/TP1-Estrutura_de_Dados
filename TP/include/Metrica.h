@@ -15,13 +15,13 @@ protected:
     }
 
 public:
-    Metrica() : _WCOTACOES(0) {}
-    Metrica(unsigned WCOTACOES) : _WCOTACOES(WCOTACOES) {}
+    Metrica();
+    Metrica(unsigned WCOTACOES);
     ~Metrica() = default;
 
     // Métodos para calcular as métricas
-    double RET(Acao &acao, unsigned indiceMetrica);
-    double AVGRET(Acao &acao, unsigned indiceMetrica);
-    double CONS(Acao &acao, unsigned indiceMetrica);
-    double STAB(Acao &acao, unsigned indiceMetrica);
+    double RET(Acao &acao);
+    double AVGRET(Acao &acao);
+    double CONS(Acao &acao);
+    double STAB(Acao &acao);
 };

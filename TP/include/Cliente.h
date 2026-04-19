@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ostream>
 #include "Vector.h"
 
 class Cliente
@@ -24,5 +25,6 @@ public:
     unsigned getNumeroAcoes() const;
 
     unsigned getAcaoID(unsigned indice) const;
+    
     friend std::ostream &operator<<(std::ostream &os, const Cliente &cliente);
 };

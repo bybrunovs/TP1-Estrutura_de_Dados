@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ostream>
 #include "Vector.h"
 class Acao
 {
@@ -15,11 +16,13 @@ public:
 
     ~Acao() = default;
 
-    double getCotacao(unsigned indice);
+    unsigned getId() const;
+
+    double& getCotacao(unsigned indice);
 
     void adicionarCotacao(double &valor);
 
-    void getPontosMetrica(unsigned indice, const double &valor);
+    unsigned getPontosMetrica(unsigned indice);
 
     void setPontosMetrica(unsigned indice, const double &valor);
 
@@ -28,8 +31,6 @@ public:
     bool operator>(const Acao& outra) const;
 
     bool operator==(const Acao& outra) const;
-
-    bool operator=(const Acao& outra) const;
 
     friend std::ostream& operator<<(std::ostream& os, const Acao& acao);
 };
