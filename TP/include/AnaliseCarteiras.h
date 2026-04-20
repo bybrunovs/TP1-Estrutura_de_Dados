@@ -21,6 +21,7 @@ private:
     bool _entrouA = false;
     bool _entrouU = false;
     bool _entrouUmetricas = false;
+    bool _entrouQ = false;
 
     void ordenarMetrica(unsigned indiceMetrica);
     void ordenarAcoes();

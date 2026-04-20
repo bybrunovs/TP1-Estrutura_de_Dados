@@ -165,8 +165,9 @@ void AnaliseCarteiras::ConsultaCarteira(unsigned IdConsulta, unsigned IDCliente,
     // Melores ações da carteira do cliente
     for (size_t i = 0; i < Nacoes && i < cliente.getNumeroAcoes(); i++)
     {
-        if (i != 0)
+        if (i != 0 || _entrouQ == false)
         {
+            _entrouQ = true;
             std::cout << std::endl;
         }
 
@@ -179,8 +180,8 @@ void AnaliseCarteiras::ConsultaCarteira(unsigned IdConsulta, unsigned IDCliente,
 
     // piores ações da carteira do cliente
     for (size_t i = 0; i < Nacoes && i < cliente.getNumeroAcoes(); i++)
-    {   
-         std::cout << std::endl;
+    {
+        std::cout << std::endl;
         std::cout << "R " << IdConsulta << " P " << i << " " << cliente.getCarteira().getElemento(i)->getId() << " "
                   << cliente.getCarteira().getElemento(i)->getPontosGlobal();
     }
