@@ -20,6 +20,8 @@ public:
 
     unsigned getId() const;
 
+    unsigned getQuantidadeCotacoes();
+
     double &getCotacao(unsigned indice);
 
     void adicionarCotacao(double &valor);

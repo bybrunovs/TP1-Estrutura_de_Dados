@@ -1,8 +1,9 @@
 #include "Acao.h"
 
-Acao::Acao() : _id(0){
+Acao::Acao() : _id(0)
+{
 
-      for (unsigned i = 0; i < 4; i++)
+    for (unsigned i = 0; i < 4; i++)
     {
         _PontosMetricas.push_back(0.0);
     }
@@ -15,11 +16,18 @@ Acao::Acao(unsigned id, unsigned WCotacoes, unsigned nMetricas) : _id(id)
     {
         _PontosMetricas.push_back(0.0);
     }
+    TADS::Vector<double> cotacoes(WCotacoes);
+    _cotacoes = cotacoes;
 }
 
 unsigned Acao::getId() const
 {
     return _id;
+}
+
+unsigned Acao::getQuantidadeCotacoes()
+{
+    return _cotacoes.tamanho();
 }
 
 double &Acao::getCotacao(unsigned indice)
@@ -29,6 +37,10 @@ double &Acao::getCotacao(unsigned indice)
 
 void Acao::adicionarCotacao(double &valor)
 {
+    if (_cotacoes.tamanho() == _cotacoes.capacidade())
+    {
+        this->_cotacoes.deleteElemento(0);
+    }
     _cotacoes.push_back(valor);
 }
 

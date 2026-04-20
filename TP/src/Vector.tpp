@@ -157,6 +157,12 @@ namespace TADS
     }
 
     template <typename T>
+    unsigned Vector<T>::capacidade() const
+    {
+        return this->_capacidade;
+    }
+
+    template <typename T>
     Vector<T>::~Vector()
     {
         delete[] this->_dados;

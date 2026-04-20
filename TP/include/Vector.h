@@ -20,7 +20,7 @@ namespace TADS
 
         Vector(const Vector &outro);
 
-        Vector& operator=(const Vector &outro);
+        Vector &operator=(const Vector &outro);
 
         void push_back(const T &elemento);
 
@@ -39,6 +39,8 @@ namespace TADS
         const T &operator[](unsigned indice) const;
 
         unsigned tamanho() const;
+
+        unsigned capacidade() const;
 
         ~Vector();
     };
