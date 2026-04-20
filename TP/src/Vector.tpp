@@ -15,7 +15,7 @@ namespace TADS
     template <typename T>
     Vector<T>::Vector(const Vector &outro) : _capacidade(outro._capacidade), _tamanho(outro._tamanho)
     {
-        this->_dados = new T[outro.tamanho()];
+        this->_dados = new T[outro._capacidade];
         for (unsigned i = 0; i < outro.tamanho(); i++)
         {
             this->_dados[i] = outro._dados[i];
@@ -32,7 +32,7 @@ namespace TADS
         }
         else
         {
-            if(this->_capacidade == 0)
+            if (this->_capacidade == 0)
             {
                 this->_capacidade = 1;
             }
@@ -51,7 +51,7 @@ namespace TADS
     }
 
     template <typename T>
-    T Vector<T>::getElemento(unsigned indice)
+    T &Vector<T>::getElemento(unsigned indice)
     {
         if (indice < _tamanho)
         {
@@ -88,6 +88,32 @@ namespace TADS
     }
 
     template <typename T>
+    bool Vector<T>::contains(const T &elemento) const
+    {
+        for (unsigned i = 0; i < this->_tamanho; i++)
+        {
+            if (this->_dados[i] == elemento)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    template <typename T>
+    unsigned Vector<T>::getIndice(const T &elemento) const
+    {
+        for (unsigned i = 0; i < this->_tamanho; i++)
+        {
+            if (this->_dados[i] == elemento)
+            {
+                return i;
+            }
+        }
+        throw std::out_of_range("Elemento não encontrado");
+    }
+
+    template <typename T>
     T &Vector<T>::operator[](unsigned indice)
     {
         if (indice < _tamanho)
@@ -105,6 +131,23 @@ namespace TADS
             return this->_dados[indice];
         }
         throw std::out_of_range("Índice fora dos limites");
+    }
+
+    template <typename T>
+    Vector<T> &Vector<T>::operator=(const Vector<T> &outro)
+    {
+        if (this != &outro)
+        {
+            delete[] _dados;
+            _capacidade = outro._capacidade;
+            _tamanho = outro._tamanho;
+            _dados = new T[_capacidade];
+            for (unsigned i = 0; i < _tamanho; i++)
+            {
+                _dados[i] = outro._dados[i];
+            }
+        }
+        return *this;
     }
 
     template <typename T>

@@ -2,21 +2,23 @@
 
 #include <ostream>
 #include "Vector.h"
-
+#include "Acao.h"
 class Cliente
 {
 private:
     unsigned _id;
-    TADS::Vector<unsigned> _IDAcoesCarteira;
+    TADS::Vector<Acao *> _acoesCarteira;
 
 public:
+    Cliente();
+
     Cliente(unsigned id);
 
     ~Cliente() = default;
 
     unsigned getId() const;
 
-    void adicionarAcao(unsigned IDAcao);
+    void adicionarAcao(Acao &acao);
 
     void removerAcao(unsigned IDAcao);
 
@@ -24,7 +26,7 @@ public:
 
     unsigned getNumeroAcoes() const;
 
-    unsigned getAcaoID(unsigned indice) const;
-    
+    TADS::Vector<Acao *> &getCarteira();
+
     friend std::ostream &operator<<(std::ostream &os, const Cliente &cliente);
 };

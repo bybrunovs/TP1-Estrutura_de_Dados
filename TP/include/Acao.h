@@ -5,32 +5,40 @@
 class Acao
 {
 private:
-    unsigned _id;
+    unsigned _id = 0;
 
     TADS::Vector<double> _cotacoes;
-    TADS::Vector<unsigned> _PontosMetricas;
-    double _PontosMetrica;
+    TADS::Vector<double> _PontosMetricas;
+    double _PontosGlobal = 0.0;
 
 public:
+    Acao();
+
     Acao(unsigned id, unsigned WCotacoes, unsigned nMetricas);
 
     ~Acao() = default;
 
     unsigned getId() const;
 
-    double& getCotacao(unsigned indice);
+    double &getCotacao(unsigned indice);
 
     void adicionarCotacao(double &valor);
 
-    unsigned getPontosMetrica(unsigned indice);
+    double getPontosMetrica(unsigned indice);
 
     void setPontosMetrica(unsigned indice, const double &valor);
 
-    bool operator<(const Acao& outra) const;
+    double getPontosGlobal() const;
 
-    bool operator>(const Acao& outra) const;
+    void setPontosGlobal(const double &valor);
 
-    bool operator==(const Acao& outra) const;
+    bool operator<(const Acao &outra) const;
 
-    friend std::ostream& operator<<(std::ostream& os, const Acao& acao);
+    bool operator>(const Acao &outra) const;
+
+    bool operator==(const Acao &outra) const;
+
+    bool operator!=(const Acao &outra) const;
+
+    friend std::ostream &operator<<(std::ostream &os, const Acao &acao);
 };

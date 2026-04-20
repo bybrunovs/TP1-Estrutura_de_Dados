@@ -20,13 +20,19 @@ namespace TADS
 
         Vector(const Vector &outro);
 
+        Vector& operator=(const Vector &outro);
+
         void push_back(const T &elemento);
 
-        T getElemento(unsigned indice);
+        T &getElemento(unsigned indice);
 
         void setElemento(unsigned indice, const T &valor);
 
         void deleteElemento(unsigned indice);
+
+        bool contains(const T &elemento) const;
+
+        unsigned getIndice(const T &elemento) const;
 
         T &operator[](unsigned indice);
 

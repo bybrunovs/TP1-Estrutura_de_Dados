@@ -1,34 +1,40 @@
 #include "Cliente.h"
 
+
+Cliente::Cliente() : _id(0) {}
+
 Cliente::Cliente(unsigned id) : _id(id) {}
 
 unsigned Cliente::getId() const
 {
     return _id;
 }
-
-void Cliente::adicionarAcao(unsigned IDAcao)
+ 
+void Cliente::adicionarAcao(Acao &acao)
 {
-    _IDAcoesCarteira.push_back(IDAcao);
+    Acao *acaoPtr = &acao;
+    _acoesCarteira.push_back(acaoPtr);
 }
 
 void Cliente::removerAcao(unsigned IDAcao)
 {
-    for (unsigned i = 0; i < _IDAcoesCarteira.tamanho(); i++)
+    for (unsigned i = 0; i < _acoesCarteira.tamanho(); i++)
     {
-        if (_IDAcoesCarteira[i] == IDAcao)
+        if (_acoesCarteira[i]->getId() == IDAcao)
         {
-            _IDAcoesCarteira.deleteElemento(i);
+            _acoesCarteira.deleteElemento(i);
             return;
         }
     }
+
+    throw std::invalid_argument("O cliente não possui a ação com o ID especificado");
 }
 
 bool Cliente::possuiAcao(unsigned IDAcao) const
 {
-    for (unsigned i = 0; i < _IDAcoesCarteira.tamanho(); i++)
+    for (unsigned i = 0; i < _acoesCarteira.tamanho(); i++)
     {
-        if (_IDAcoesCarteira[i] == IDAcao)
+        if (_acoesCarteira[i]->getId() == IDAcao)
         {
             return true;
         }
@@ -38,7 +44,12 @@ bool Cliente::possuiAcao(unsigned IDAcao) const
 
 unsigned Cliente::getNumeroAcoes() const
 {
-    return _IDAcoesCarteira.tamanho();
+    return _acoesCarteira.tamanho();
+}
+
+TADS::Vector<Acao *> &Cliente::getCarteira()
+{
+    return _acoesCarteira;
 }
 
 std::ostream &operator<<(std::ostream &os, const Cliente &cliente)

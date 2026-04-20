@@ -9,7 +9,9 @@ int main(int argc, char const *argv[])
 
     vetor.push_back(10);
 
-    // vetor.push_back(15);
+    std::cout << "Vetor contém 5: " << vetor.contains(5) << std::endl;
+
+    std::cout << "Vetor contém 5: " << vetor.contains(7) << std::endl;
 
     std::cout << "Tamanho do vetor: " << vetor.tamanho() << std::endl;
 
@@ -42,7 +44,7 @@ int main(int argc, char const *argv[])
     vetor.push_back(4);
     vetor.push_back(6);
 
-        for (unsigned i = 0; i < vetor.tamanho(); i++)
+    for (unsigned i = 0; i < vetor.tamanho(); i++)
     {
         std::cout << vetor[i] << std::endl;
     }

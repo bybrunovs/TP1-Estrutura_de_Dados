@@ -12,7 +12,7 @@ double Metrica::RET(Acao &acao)
 
 double Metrica::AVGRET(Acao &acao)
 {
-
+ 
     // media dos retornos elementares
 
     double somaRetornoElementar = 0.0;
@@ -29,7 +29,7 @@ double Metrica::CONS(Acao &acao)
 
     // função indicadora do evento ri > 0
     double retornoElementares = 0;
-    for (unsigned i = 1; i < _WCOTACOES - 1; i++)
+    for (unsigned i = 1; i < _WCOTACOES; i++)
     {
         double retornoElementar = this->retornoElementar(acao.getCotacao(i), acao.getCotacao(i - 1));
         if (retornoElementar > 0)
