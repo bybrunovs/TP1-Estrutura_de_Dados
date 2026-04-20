@@ -19,7 +19,7 @@ void AnaliseCarteiras::iniciarMetricas()
 
     for (unsigned j = 0; j < _acoes.tamanho(); j++)
     {
-        _ordenaçaoGlobalAcoes.push_back(j);
+        _ordenacaoGlobalAcoes.push_back(j);
     }
 }
 
@@ -158,7 +158,7 @@ void AnaliseCarteiras::ConsultaCarteira(unsigned IdConsulta, unsigned IDCliente,
     ordenarAcoes();
 
     // ordenar as ações da carteira do cliente de acordo com a ordenação global
-    ordenarCliente(IDCliente);
+    ordenarCliente(IDCliente, true);
 
     // imprimir as N ações da carteira do cliente com melhor e pior pontuação de acordo com as métricas
     Cliente &cliente = _clientes.getElemento(IDCliente);
@@ -169,13 +169,14 @@ void AnaliseCarteiras::ConsultaCarteira(unsigned IdConsulta, unsigned IDCliente,
                   << std::fixed << std::setprecision(2) << cliente.getCarteira().getElemento(i)->getPontosGlobal() << std::endl;
     }
 
+    // reordenar para ordem crescente para as piores
+    ordenarCliente(IDCliente, false);
+
     // piores ações da carteira do cliente
     for (size_t i = 0; i < Nacoes && i < cliente.getNumeroAcoes(); i++)
     {
-        unsigned total = cliente.getNumeroAcoes();
-
-        std::cout << "R " << IdConsulta << " P " << i << " " << cliente.getCarteira().getElemento(total - 1 - i)->getId() << " "
-                  << std::fixed << std::setprecision(2) << cliente.getCarteira().getElemento(total - 1 - i)->getPontosGlobal() << std::endl;
+        std::cout << "R " << IdConsulta << " P " << i << " " << cliente.getCarteira().getElemento(i)->getId() << " "
+                  << std::fixed << std::setprecision(2) << cliente.getCarteira().getElemento(i)->getPontosGlobal() << std::endl;
     }
 }
 
@@ -211,12 +212,12 @@ void AnaliseCarteiras::ordenarMetrica(unsigned indiceMetrica)
 void AnaliseCarteiras::ordenarAcoes()
 {
 
-    quicksort(_ordenaçaoGlobalAcoes, 0, this->_acoes.tamanho() - 1);
+    quicksort(_ordenacaoGlobalAcoes, 0, this->_acoes.tamanho() - 1);
 }
 
-void AnaliseCarteiras::ordenarCliente(unsigned IDCliente)
+void AnaliseCarteiras::ordenarCliente(unsigned IDCliente, bool isDecrescente)
 {
-    quicksort(_clientes.getElemento(IDCliente).getCarteira(), 0, this->_clientes.getElemento(IDCliente).getNumeroAcoes() - 1);
+    quicksort(_clientes.getElemento(IDCliente).getCarteira(), 0, this->_clientes.getElemento(IDCliente).getNumeroAcoes() - 1, isDecrescente);
 }
 
 // ordenacao metricas
@@ -246,29 +247,29 @@ void AnaliseCarteiras::quicksort(TADS::Vector<unsigned> &ordenacaoGlobalAcoes, u
     }
 }
 
-void AnaliseCarteiras::quicksort(TADS::Vector<Acao *> &ordenacaoCarteiraCliente, unsigned low, unsigned high)
+void AnaliseCarteiras::quicksort(TADS::Vector<Acao *> &ordenacaoCarteiraCliente, unsigned low, unsigned high, bool isDecrescente)
 {
     if (low < high)
     {
-        unsigned pi = partition(ordenacaoCarteiraCliente, low, high);
+        unsigned pi = partition(ordenacaoCarteiraCliente, low, high, isDecrescente);
 
         if (pi > low)
-            quicksort(ordenacaoCarteiraCliente, low, pi - 1);
+            quicksort(ordenacaoCarteiraCliente, low, pi - 1, isDecrescente);
         if (pi < high)
-            quicksort(ordenacaoCarteiraCliente, pi + 1, high);
+            quicksort(ordenacaoCarteiraCliente, pi + 1, high, isDecrescente);
     }
 }
 
 double AnaliseCarteiras::partition(TADS::Vector<unsigned> &metrica, unsigned low, unsigned high, unsigned indiceMetrica)
 {
-    unsigned pivotIndex = metrica.getElemento(high);
-    double pivot = _acoes.getElemento(pivotIndex).getPontosMetrica(indiceMetrica);
+    unsigned indexPivot = metrica.getElemento(high);
+    double pivot = _acoes.getElemento(indexPivot).getPontosMetrica(indiceMetrica);
     unsigned i = low - 1;
     for (unsigned j = low; j < high; j++)
     {
-        unsigned currentIndex = metrica.getElemento(j);
-        double current = _acoes.getElemento(currentIndex).getPontosMetrica(indiceMetrica);
-        if (current > pivot || (current == pivot && currentIndex < pivotIndex))
+        unsigned indexAtual = metrica.getElemento(j);
+        double Atual = _acoes.getElemento(indexAtual).getPontosMetrica(indiceMetrica);
+        if (Atual > pivot || (doubleEquals(Atual, pivot) && indexAtual < indexPivot))
         {
             i++;
             swap(metrica.getElemento(i), metrica.getElemento(j));
@@ -280,15 +281,15 @@ double AnaliseCarteiras::partition(TADS::Vector<unsigned> &metrica, unsigned low
 
 double AnaliseCarteiras::partition(TADS::Vector<unsigned> &ordenacaoGlobalAcoes, unsigned low, unsigned high)
 {
-    unsigned pivotIndex = ordenacaoGlobalAcoes.getElemento(high);
-    double pivot = _acoes.getElemento(pivotIndex).getPontosGlobal();
+    unsigned indexPivot = ordenacaoGlobalAcoes.getElemento(high);
+    double pivot = _acoes.getElemento(indexPivot).getPontosGlobal();
     unsigned i = low - 1;
 
     for (unsigned j = low; j < high; j++)
     {
-        unsigned currentIndex = ordenacaoGlobalAcoes.getElemento(j);
-        double current = _acoes.getElemento(currentIndex).getPontosGlobal();
-        if (current > pivot || (current == pivot && currentIndex < pivotIndex))
+        unsigned indexAtual = ordenacaoGlobalAcoes.getElemento(j);
+        double Atual = _acoes.getElemento(indexAtual).getPontosGlobal();
+        if (Atual > pivot || (doubleEquals(Atual, pivot) && indexAtual < indexPivot))
         {
             i++;
             swap(ordenacaoGlobalAcoes.getElemento(i), ordenacaoGlobalAcoes.getElemento(j));
@@ -298,19 +299,28 @@ double AnaliseCarteiras::partition(TADS::Vector<unsigned> &ordenacaoGlobalAcoes,
     return i + 1;
 }
 
-double AnaliseCarteiras::partition(TADS::Vector<Acao *> &ordenacaoCarteiraCliente, unsigned low, unsigned high)
+double AnaliseCarteiras::partition(TADS::Vector<Acao *> &ordenacaoCarteiraCliente, unsigned low, unsigned high, bool isDecrescente)
 {
-    Acao *pivotAction = ordenacaoCarteiraCliente.getElemento(high);
-    double pivot = pivotAction->getPontosGlobal();
-    unsigned pivotId = pivotAction->getId();
+    Acao *acaoPivot = ordenacaoCarteiraCliente.getElemento(high);
+    double pivot = acaoPivot->getPontosGlobal();
+    unsigned pivotId = acaoPivot->getId();
     unsigned i = low - 1;
 
     for (unsigned j = low; j < high; j++)
     {
-        Acao *currentAction = ordenacaoCarteiraCliente.getElemento(j);
-        double current = currentAction->getPontosGlobal();
-        unsigned currentId = currentAction->getId();
-        if (current > pivot || (current == pivot && currentId < pivotId))
+        Acao *acaoAtual = ordenacaoCarteiraCliente.getElemento(j);
+        double atual = acaoAtual->getPontosGlobal();
+        unsigned idAtual = acaoAtual->getId();
+        bool condicao;
+        if (isDecrescente)
+        {
+            condicao = (atual > pivot) || (doubleEquals(atual, pivot) && idAtual < pivotId);
+        }
+        else
+        {
+            condicao = (atual < pivot) || (doubleEquals(atual, pivot) && idAtual < pivotId);
+        }
+        if (condicao)
         {
             i++;
             swap(ordenacaoCarteiraCliente.getElemento(i), ordenacaoCarteiraCliente.getElemento(j));
@@ -326,4 +336,10 @@ void AnaliseCarteiras::swap(T &a, T &b)
     T temp = a;
     a = b;
     b = temp;
+}
+
+bool AnaliseCarteiras::doubleEquals(double a, double b)
+{
+    const double epsilon = 1e-9;
+    return std::abs(a - b) < epsilon;
 }

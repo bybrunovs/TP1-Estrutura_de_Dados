@@ -14,7 +14,7 @@ private:
     TADS::Vector<Cliente> _clientes;
     TADS::Vector<std::string> _nomesMetricas;
     TADS::Vector<TADS::Vector<unsigned>> _OrdenacaoMetricas;
-    TADS::Vector<unsigned> _ordenaçaoGlobalAcoes;
+    TADS::Vector<unsigned> _ordenacaoGlobalAcoes;
 
     Metrica _metrica;
     unsigned _wcotacoes = 0;
@@ -24,18 +24,21 @@ private:
 
     void ordenarMetrica(unsigned indiceMetrica);
     void ordenarAcoes();
-    void ordenarCliente(unsigned IDCliente);
+    void ordenarCliente(unsigned IDCliente, bool isDecrescente);
 
     void quicksort(TADS::Vector<unsigned> &metrica, unsigned low, unsigned high, unsigned indiceMetrica);
     void quicksort(TADS::Vector<unsigned> &ordenacaoGlobalAcoes, unsigned low, unsigned high);
-    void quicksort(TADS::Vector<Acao *> &ordenacaoCarteiraCliente, unsigned low, unsigned high);
+    void quicksort(TADS::Vector<Acao *> &ordenacaoCarteiraCliente, unsigned low, unsigned high, bool isDecrescente);
 
     double partition(TADS::Vector<unsigned> &metrica, unsigned low, unsigned high, unsigned indiceMetrica);
-    double partition(TADS::Vector<unsigned> &ordenaçaoGlobalAcoes, unsigned low, unsigned high);
-    double partition(TADS::Vector<Acao *> &ordenacaoCarteiraCliente, unsigned low, unsigned high);
+    double partition(TADS::Vector<unsigned> &ordenacaoGlobalAcoes, unsigned low, unsigned high);
+    double partition(TADS::Vector<Acao *> &ordenacaoCarteiraCliente, unsigned low, unsigned high, bool isDecrescente);
 
     template <typename T>
-void swap(T &a, T &b);
+    void swap(T &a, T &b);
+
+    bool doubleEquals(double a, double b);
+
 public:
     AnaliseCarteiras(unsigned wcotacoes);
     ~AnaliseCarteiras() = default;
