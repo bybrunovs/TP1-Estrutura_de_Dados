@@ -7,6 +7,8 @@
 
 int main(int argc, char *argv[])
 {
+    std::cout << std::fixed << std::setprecision(3);
+
     std::string token;
     std::string linha;
 

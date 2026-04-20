@@ -165,8 +165,13 @@ void AnaliseCarteiras::ConsultaCarteira(unsigned IdConsulta, unsigned IDCliente,
     // Melores ações da carteira do cliente
     for (size_t i = 0; i < Nacoes && i < cliente.getNumeroAcoes(); i++)
     {
+        if (i != 0)
+        {
+            std::cout << std::endl;
+        }
+
         std::cout << "R " << IdConsulta << " M " << i << " " << cliente.getCarteira().getElemento(i)->getId() << " "
-                  << std::fixed << std::setprecision(2) << cliente.getCarteira().getElemento(i)->getPontosGlobal() << std::endl;
+                  << cliente.getCarteira().getElemento(i)->getPontosGlobal();
     }
 
     // reordenar para ordem crescente para as piores
@@ -174,9 +179,10 @@ void AnaliseCarteiras::ConsultaCarteira(unsigned IdConsulta, unsigned IDCliente,
 
     // piores ações da carteira do cliente
     for (size_t i = 0; i < Nacoes && i < cliente.getNumeroAcoes(); i++)
-    {
+    {   
+         std::cout << std::endl;
         std::cout << "R " << IdConsulta << " P " << i << " " << cliente.getCarteira().getElemento(i)->getId() << " "
-                  << std::fixed << std::setprecision(2) << cliente.getCarteira().getElemento(i)->getPontosGlobal() << std::endl;
+                  << cliente.getCarteira().getElemento(i)->getPontosGlobal();
     }
 }
 
@@ -340,6 +346,6 @@ void AnaliseCarteiras::swap(T &a, T &b)
 
 bool AnaliseCarteiras::doubleEquals(double a, double b)
 {
-    const double epsilon = 1e-9;
+    const double epsilon = 1e-3;
     return std::abs(a - b) < epsilon;
 }
