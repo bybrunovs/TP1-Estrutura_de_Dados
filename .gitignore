@@ -1,7 +1,12 @@
 *.zip
+*.pdf
+
+# Folder
 testes/
-.vscode/
-*.sh
+AE/data/
+AE/output/
+AE/entradas/
+
 # Prerequisites
 *.d
 

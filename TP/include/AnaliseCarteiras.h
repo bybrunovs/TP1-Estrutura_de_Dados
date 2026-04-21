@@ -37,7 +37,7 @@ private:
 
     template <typename T>
     void swap(T &a, T &b);
-
+    unsigned encontrarMediana(double a,unsigned indicea, double b, unsigned indiceb, double c, unsigned indicec);
     bool doubleEquals(double a, double b);
 
 public:

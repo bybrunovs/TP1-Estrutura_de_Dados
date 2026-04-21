@@ -1,9 +1,13 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <chrono>
+
 #include "AnaliseCarteiras.h"
 #include "Vector.h"
 #include "Metrica.h"
+// começa a contar  o tempo de execucao
+auto start = std::chrono::high_resolution_clock::now();
 
 int main(int argc, char *argv[])
 {
@@ -97,5 +101,8 @@ int main(int argc, char *argv[])
         else
             throw std::invalid_argument("Entrada inválida: tipo de linha desconhecido. As linhas válidas são: A, U, P, B, V e Q.");
     }
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duracao = end - start;
+  std::cerr << "Tempo da consulta: " << duracao.count() << " ms" << std::endl;
     return 0;
 }

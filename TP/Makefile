@@ -29,6 +29,7 @@ INCLUDE_FOLDER = ./include/
 BIN_FOLDER = ./bin/
 OBJ_FOLDER = ./obj/
 SRC_FOLDER = ./src/
+AE_FOLDER = ../AE/
 
 # all sources, objs, and header files
 MAIN = Main
@@ -44,3 +45,6 @@ all: $(OBJ)
 
 clean:
 	@rm -rf $(OBJ_FOLDER)* $(BIN_FOLDER)*
+
+cleanae:
+	@rm -rf $(AE_FOLDER)/output/* $(AE_FOLDER)/data/*

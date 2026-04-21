@@ -270,7 +270,7 @@ void AnaliseCarteiras::quicksort(TADS::Vector<Acao *> &ordenacaoCarteiraCliente,
 
 double AnaliseCarteiras::partition(TADS::Vector<unsigned> &metrica, unsigned low, unsigned high, unsigned indiceMetrica)
 {
-    unsigned indexPivot = metrica.getElemento(high);
+    unsigned indexPivot = encontrarMediana(metrica.getElemento(low), low, metrica.getElemento(high / 2), high / 2, metrica.getElemento(high), high);
     double pivot = _acoes.getElemento(indexPivot).getPontosMetrica(indiceMetrica);
     unsigned i = low - 1;
     for (unsigned j = low; j < high; j++)
@@ -289,7 +289,7 @@ double AnaliseCarteiras::partition(TADS::Vector<unsigned> &metrica, unsigned low
 
 double AnaliseCarteiras::partition(TADS::Vector<unsigned> &ordenacaoGlobalAcoes, unsigned low, unsigned high)
 {
-    unsigned indexPivot = ordenacaoGlobalAcoes.getElemento(high);
+    unsigned indexPivot = encontrarMediana(ordenacaoGlobalAcoes.getElemento(low), low, ordenacaoGlobalAcoes.getElemento(high / 2), high / 2, ordenacaoGlobalAcoes.getElemento(high), high);
     double pivot = _acoes.getElemento(indexPivot).getPontosGlobal();
     unsigned i = low - 1;
 
@@ -309,7 +309,8 @@ double AnaliseCarteiras::partition(TADS::Vector<unsigned> &ordenacaoGlobalAcoes,
 
 double AnaliseCarteiras::partition(TADS::Vector<Acao *> &ordenacaoCarteiraCliente, unsigned low, unsigned high, bool isDecrescente)
 {
-    Acao *acaoPivot = ordenacaoCarteiraCliente.getElemento(high);
+    unsigned indexPivot = encontrarMediana(ordenacaoCarteiraCliente.getElemento(low)->getPontosGlobal(), low, ordenacaoCarteiraCliente.getElemento(high / 2)->getPontosGlobal(), high / 2, ordenacaoCarteiraCliente.getElemento(high)->getPontosGlobal(), high);
+    Acao *acaoPivot = ordenacaoCarteiraCliente.getElemento(indexPivot);
     double pivot = acaoPivot->getPontosGlobal();
     unsigned pivotId = acaoPivot->getId();
     unsigned i = low - 1;
@@ -344,6 +345,19 @@ void AnaliseCarteiras::swap(T &a, T &b)
     T temp = a;
     a = b;
     b = temp;
+}
+
+unsigned AnaliseCarteiras::encontrarMediana(double a, unsigned indicea, double b, unsigned indiceb, double c, unsigned indicec)
+{
+    // Verifica se 'a' é a mediana
+    if ((a >= b && a <= c) || (a >= c && a <= b))
+        return indicea;
+    // Verifica se 'b' é a mediana
+    else if ((b >= a && b <= c) || (b >= c && b <= a))
+        return indiceb;
+    // Se não for 'a' ou 'b', então é 'c'
+    else
+        return indicec;
 }
 
 bool AnaliseCarteiras::doubleEquals(double a, double b)
