@@ -1,0 +1,11 @@
+Cotações, Estrategia, Quantidade de ações, Clientes, Quantida consultas, Tempo de execução,  pico de memória(kb)
+10,imediata,10,10,10,,
+10,sob_demanda,10,10,10,0.000382466,3956
+10,imediata,10,10,100,,
+10,sob_demanda,10,10,100, 0.00330572,3864
+10,imediata,10,10,1000, ,
+10,sob_demanda,10,10,1000, 0.0146812,3956
+10,imediata,10,10,10000, ,
+10,sob_demanda,10,10,10000,0.135026,3932
+10,imediata,10,10,100000, ,
+10,sob_demanda,10,10,100000, 1.30856,3996
