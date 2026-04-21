@@ -40,13 +40,13 @@ def gerar_entrada(n_acoes, n_clientes, n_cotacoes, n_consultas, nome_arquivo):
 
 for i in range(5):
     #variando acoes
-    gerar_entrada(10 ** (i + 1), 10, 10, 10, f"analiseExperimental/entradas/acoes{i}.txt")
+    gerar_entrada(10 ** (i + 1), 10, 10, 10, f"AE/entradas/acoes{i}.txt")
 
     #variando cliente
-    gerar_entrada(10,10 ** (i + 1), 10, 10, f"analiseExperimental/entradas/cliente{i}.txt")
+    gerar_entrada(10,10 ** (i + 1), 10, 10, f"AE/entradas/cliente{i}.txt")
 
     #variando cotacoes
-    gerar_entrada(10, 10,10 ** (i + 1), 10, f"analiseExperimental/entradas/cotacoes{i}.txt")
+    gerar_entrada(10, 10,10 ** (i + 1), 10, f"AE/entradas/cotacoes{i}.txt")
 
     #variando consultas
-    gerar_entrada(10, 10, 10,10 ** (i + 1), f"analiseExperimental/entradas/consultas{i}.txt")
+    gerar_entrada(10, 10, 10,10 ** (i + 1), f"AE/entradas/consultas{i}.txt")

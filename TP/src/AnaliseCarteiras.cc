@@ -87,68 +87,17 @@ void AnaliseCarteiras::ConsultaCarteira(unsigned IdConsulta, unsigned IDCliente,
         throw std::invalid_argument("Entrada inválida: a linha de consulta deve vir após as linhas de ações e clientes");
 
     // Inicializar as ordenações das métricas se necessário
-    if (_OrdenacaoMetricas.tamanho() > 0 && _OrdenacaoMetricas.getElemento(0).tamanho() != _acoes.tamanho()) {
-        for (unsigned i = 0; i < _OrdenacaoMetricas.tamanho(); i++) {
+    if (_OrdenacaoMetricas.tamanho() > 0 && _OrdenacaoMetricas.getElemento(0).tamanho() != _acoes.tamanho())
+    {
+        for (unsigned i = 0; i < _OrdenacaoMetricas.tamanho(); i++)
+        {
             TADS::Vector<unsigned> newOrdenacao;
-            for (unsigned j = 0; j < _acoes.tamanho(); j++) {
+            for (unsigned j = 0; j < _acoes.tamanho(); j++)
+            {
                 newOrdenacao.push_back(j);
             }
             _OrdenacaoMetricas.getElemento(i) = newOrdenacao;
         }
-    }
-
-    // calcular as metricas para as ações
-    for (unsigned i = 0; i < Nmetricas; i++)
-    {
-        // verificar se a métrica é válida
-        if (!_nomesMetricas.contains(metricas[i]))
-            throw std::invalid_argument("Métrica inválida");
-
-        // verificar qual
-        unsigned k = getIndiceMetrica(metricas[i]);
-
-        // calcular os pontos para cada ação de acordo com a métrica
-        if (metricas[i].compare("RET") == 0)
-        {
-            for (unsigned j = 0; j < _acoes.tamanho(); j++)
-            {
-                Acao &acao = _acoes.getElemento(j);
-                acao.setPontosMetrica(k, _metrica.RET(acao));
-            }
-        }
-        else if (metricas[i].compare("AVGRET") == 0)
-        {
-            for (unsigned j = 0; j < _acoes.tamanho(); j++)
-            {
-                Acao &acao = _acoes.getElemento(j);
-                acao.setPontosMetrica(k, _metrica.AVGRET(acao));
-            }
-        }
-        else if (metricas[i].compare("CONS") == 0)
-        {
-            for (unsigned j = 0; j < _acoes.tamanho(); j++)
-            {
-                Acao &acao = _acoes.getElemento(j);
-                acao.setPontosMetrica(k, _metrica.CONS(acao));
-            }
-        }
-        else if (metricas[i].compare("STAB") == 0)
-        {
-            for (unsigned j = 0; j < _acoes.tamanho(); j++)
-            {
-                Acao &acao = _acoes.getElemento(j);
-                acao.setPontosMetrica(k, _metrica.STAB(acao));
-            }
-        }
-        else
-            throw std::invalid_argument("Métrica inválida. As métricas válidas são: RET, AVGRET, CONS e STAB.");
-    }
-
-    // ordenar as ações de acordo com as métricas
-    for (unsigned i = 0; i < Nmetricas; i++)
-    {
-        unsigned k = getIndiceMetrica(metricas[i]);
-        ordenarMetrica(k);
     }
 
     // calcular a ordenação global das ações de acordo com as métricas e os pesos
@@ -221,6 +170,43 @@ void AnaliseCarteiras::CompraAcao(unsigned IDCliente, unsigned IDAcao)
 void AnaliseCarteiras::AdicionarCotacaoAcao(unsigned IDAcao, double &preco)
 {
     this->_acoes.getElemento(IDAcao).adicionarCotacao(preco);
+    if (this->_acoes.tamanho() > 1)
+    {
+        // calcular as metricas para as ações
+        for (unsigned i = 0; i < _nomesMetricas.tamanho(); i++)
+        {
+
+            // calcular os pontos para cada ação de acordo com a métrica
+            if (_nomesMetricas[i].compare("RET") == 0)
+            {
+                Acao &acao = _acoes.getElemento(IDAcao);
+                acao.setPontosMetrica(i, _metrica.RET(acao));
+            }
+            else if (_nomesMetricas[i].compare("AVGRET") == 0)
+            {
+
+                Acao &acao = _acoes.getElemento(IDAcao);
+                acao.setPontosMetrica(i, _metrica.AVGRET(acao));
+            }
+            else if (_nomesMetricas[i].compare("CONS") == 0)
+            {
+
+                Acao &acao = _acoes.getElemento(IDAcao);
+                acao.setPontosMetrica(i, _metrica.CONS(acao));
+            }
+            else if (_nomesMetricas[i].compare("STAB") == 0)
+            {
+
+                Acao &acao = _acoes.getElemento(IDAcao);
+                acao.setPontosMetrica(i, _metrica.STAB(acao));
+            }
+            else
+                throw std::invalid_argument("Métrica inválida. As métricas válidas são: RET, AVGRET, CONS e STAB.");
+
+            // ordenar as ações de acordo com as métricas
+            ordenarMetrica(i);
+        }
+    }
 }
 
 void AnaliseCarteiras::ordenarMetrica(unsigned indiceMetrica)
