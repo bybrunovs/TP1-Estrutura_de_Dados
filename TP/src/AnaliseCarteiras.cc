@@ -86,6 +86,17 @@ void AnaliseCarteiras::ConsultaCarteira(unsigned IdConsulta, unsigned IDCliente,
     if (!_entrouA || !_entrouU)
         throw std::invalid_argument("Entrada inválida: a linha de consulta deve vir após as linhas de ações e clientes");
 
+    // Inicializar as ordenações das métricas se necessário
+    if (_OrdenacaoMetricas.tamanho() > 0 && _OrdenacaoMetricas.getElemento(0).tamanho() != _acoes.tamanho()) {
+        for (unsigned i = 0; i < _OrdenacaoMetricas.tamanho(); i++) {
+            TADS::Vector<unsigned> newOrdenacao;
+            for (unsigned j = 0; j < _acoes.tamanho(); j++) {
+                newOrdenacao.push_back(j);
+            }
+            _OrdenacaoMetricas.getElemento(i) = newOrdenacao;
+        }
+    }
+
     // calcular as metricas para as ações
     for (unsigned i = 0; i < Nmetricas; i++)
     {
@@ -270,9 +281,20 @@ void AnaliseCarteiras::quicksort(TADS::Vector<Acao *> &ordenacaoCarteiraCliente,
 
 double AnaliseCarteiras::partition(TADS::Vector<unsigned> &metrica, unsigned low, unsigned high, unsigned indiceMetrica)
 {
-    unsigned indexPivot = encontrarMediana(metrica.getElemento(low), low, metrica.getElemento(high / 2), high / 2, metrica.getElemento(high), high);
+    // Calcular índices para mediana de três (low, mid, high)
+    unsigned mid = low + (high - low) / 2; // Meio aproximado
+    unsigned indexPivot = encontrarMediana(
+        _acoes.getElemento(metrica.getElemento(low)).getPontosMetrica(indiceMetrica), low,
+        _acoes.getElemento(metrica.getElemento(mid)).getPontosMetrica(indiceMetrica), mid,
+        _acoes.getElemento(metrica.getElemento(high)).getPontosMetrica(indiceMetrica), high);
+
+    // Trocar o elemento mediano com o elemento em 'high' para que o pivô fique na posição correta
+    swap(metrica.getElemento(indexPivot), metrica.getElemento(high));
+
+    // Agora o pivô está em 'high', como esperado
+    indexPivot = metrica.getElemento(high);
     double pivot = _acoes.getElemento(indexPivot).getPontosMetrica(indiceMetrica);
-    unsigned i = low - 1;
+    int i = (int)low - 1;
     for (unsigned j = low; j < high; j++)
     {
         unsigned indexAtual = metrica.getElemento(j);
@@ -289,10 +311,20 @@ double AnaliseCarteiras::partition(TADS::Vector<unsigned> &metrica, unsigned low
 
 double AnaliseCarteiras::partition(TADS::Vector<unsigned> &ordenacaoGlobalAcoes, unsigned low, unsigned high)
 {
-    unsigned indexPivot = encontrarMediana(ordenacaoGlobalAcoes.getElemento(low), low, ordenacaoGlobalAcoes.getElemento(high / 2), high / 2, ordenacaoGlobalAcoes.getElemento(high), high);
-    double pivot = _acoes.getElemento(indexPivot).getPontosGlobal();
-    unsigned i = low - 1;
+    // Calcular índices para mediana de três
+    unsigned mid = low + (high - low) / 2;
+    unsigned indexPivot = encontrarMediana(
+        _acoes.getElemento(ordenacaoGlobalAcoes.getElemento(low)).getPontosGlobal(), low,
+        _acoes.getElemento(ordenacaoGlobalAcoes.getElemento(mid)).getPontosGlobal(), mid,
+        _acoes.getElemento(ordenacaoGlobalAcoes.getElemento(high)).getPontosGlobal(), high);
 
+    // Trocar o elemento mediano com o elemento em 'high'
+    swap(ordenacaoGlobalAcoes.getElemento(indexPivot), ordenacaoGlobalAcoes.getElemento(high));
+
+    // Pivô agora em 'high'
+    indexPivot = ordenacaoGlobalAcoes.getElemento(high);
+    double pivot = _acoes.getElemento(indexPivot).getPontosGlobal();
+    int i = (int)low - 1;
     for (unsigned j = low; j < high; j++)
     {
         unsigned indexAtual = ordenacaoGlobalAcoes.getElemento(j);
@@ -309,12 +341,21 @@ double AnaliseCarteiras::partition(TADS::Vector<unsigned> &ordenacaoGlobalAcoes,
 
 double AnaliseCarteiras::partition(TADS::Vector<Acao *> &ordenacaoCarteiraCliente, unsigned low, unsigned high, bool isDecrescente)
 {
-    unsigned indexPivot = encontrarMediana(ordenacaoCarteiraCliente.getElemento(low)->getPontosGlobal(), low, ordenacaoCarteiraCliente.getElemento(high / 2)->getPontosGlobal(), high / 2, ordenacaoCarteiraCliente.getElemento(high)->getPontosGlobal(), high);
-    Acao *acaoPivot = ordenacaoCarteiraCliente.getElemento(indexPivot);
+    // Calcular índices para mediana de três
+    unsigned mid = low + (high - low) / 2;
+    unsigned indexPivot = encontrarMediana(
+        ordenacaoCarteiraCliente.getElemento(low)->getPontosGlobal(), low,
+        ordenacaoCarteiraCliente.getElemento(mid)->getPontosGlobal(), mid,
+        ordenacaoCarteiraCliente.getElemento(high)->getPontosGlobal(), high);
+
+    // Trocar o elemento mediano com o elemento em 'high'
+    swap(ordenacaoCarteiraCliente.getElemento(indexPivot), ordenacaoCarteiraCliente.getElemento(high));
+
+    // Pivô agora em 'high'
+    Acao *acaoPivot = ordenacaoCarteiraCliente.getElemento(high);
     double pivot = acaoPivot->getPontosGlobal();
     unsigned pivotId = acaoPivot->getId();
-    unsigned i = low - 1;
-
+    int i = (int)low - 1;
     for (unsigned j = low; j < high; j++)
     {
         Acao *acaoAtual = ordenacaoCarteiraCliente.getElemento(j);
@@ -362,6 +403,6 @@ unsigned AnaliseCarteiras::encontrarMediana(double a, unsigned indicea, double b
 
 bool AnaliseCarteiras::doubleEquals(double a, double b)
 {
-    const double epsilon = 1e-3;
+    const double epsilon = 1e-9;
     return std::abs(a - b) < epsilon;
 }
