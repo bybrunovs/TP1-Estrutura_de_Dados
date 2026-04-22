@@ -2,7 +2,7 @@
 
 AnaliseCarteiras::AnaliseCarteiras(unsigned wcotacoes) : _wcotacoes(wcotacoes)
 {
-    _metrica = Metrica(wcotacoes);
+    _metrica = Metrica();
 }
 
 void AnaliseCarteiras::iniciarMetricas()
@@ -10,11 +10,14 @@ void AnaliseCarteiras::iniciarMetricas()
     for (unsigned i = 0; i < _nomesMetricas.tamanho(); i++)
     {
         TADS::Vector<unsigned> ordenacaoMetrica;
+        TADS::Vector<unsigned> posicaoMetrica;
         for (unsigned j = 0; j < _acoes.tamanho(); j++)
         {
             ordenacaoMetrica.push_back(j);
+             posicaoMetrica.push_back(j);
         }
         _OrdenacaoMetricas.push_back(ordenacaoMetrica);
+        _PosicaoMetricas.push_back(posicaoMetrica);
     }
 
     for (unsigned j = 0; j < _acoes.tamanho(); j++)
@@ -90,21 +93,19 @@ void AnaliseCarteiras::ConsultaCarteira(unsigned IdConsulta, unsigned IDCliente,
     if (_OrdenacaoMetricas.tamanho() > 0 && _OrdenacaoMetricas.getElemento(0).tamanho() != _acoes.tamanho()) {
         for (unsigned i = 0; i < _OrdenacaoMetricas.tamanho(); i++) {
             TADS::Vector<unsigned> newOrdenacao;
+              TADS::Vector<unsigned> newPosicao;
             for (unsigned j = 0; j < _acoes.tamanho(); j++) {
                 newOrdenacao.push_back(j);
+                newPosicao.push_back(j);
             }
             _OrdenacaoMetricas.getElemento(i) = newOrdenacao;
+             _PosicaoMetricas.getElemento(i) = newPosicao;
         }
     }
 
-    // calcular as metricas para as ações
+    // calcular as metricas para as ações apenas para as métricas usadas na consulta
     for (unsigned i = 0; i < Nmetricas; i++)
     {
-        // verificar se a métrica é válida
-        if (!_nomesMetricas.contains(metricas[i]))
-            throw std::invalid_argument("Métrica inválida");
-
-        // verificar qual
         unsigned k = getIndiceMetrica(metricas[i]);
 
         // calcular os pontos para cada ação de acordo com a métrica
@@ -140,26 +141,26 @@ void AnaliseCarteiras::ConsultaCarteira(unsigned IdConsulta, unsigned IDCliente,
                 acao.setPontosMetrica(k, _metrica.STAB(acao));
             }
         }
-        else
-            throw std::invalid_argument("Métrica inválida. As métricas válidas são: RET, AVGRET, CONS e STAB.");
     }
 
-    // ordenar as ações de acordo com as métricas
-    for (unsigned i = 0; i < Nmetricas; i++)
+    // Reordenar as métricas usadas na consulta
+    for (unsigned j = 0; j < Nmetricas; j++)
     {
-        unsigned k = getIndiceMetrica(metricas[i]);
+        unsigned k = getIndiceMetrica(metricas[j]);
         ordenarMetrica(k);
     }
 
     // calcular a ordenação global das ações de acordo com as métricas e os pesos
     for (unsigned i = 0; i < _acoes.tamanho(); i++)
     {
+        unsigned idAcao = _acoes.getElemento(i).getId();
         double pontuacaoGlobal = 0.0;
         for (unsigned j = 0; j < Nmetricas; j++)
         {
             unsigned k = getIndiceMetrica(metricas[j]);
 
-            pontuacaoGlobal += (_acoes.tamanho() - _OrdenacaoMetricas.getElemento(k).getIndice(i)) * peso[j];
+            unsigned posicao = _PosicaoMetricas.getElemento(k).getElemento(idAcao);
+            pontuacaoGlobal += (_acoes.tamanho() - posicao) * peso[j];
         }
 
         _acoes.getElemento(i).setPontosGlobal(pontuacaoGlobal);
@@ -226,6 +227,12 @@ void AnaliseCarteiras::AdicionarCotacaoAcao(unsigned IDAcao, double &preco)
 void AnaliseCarteiras::ordenarMetrica(unsigned indiceMetrica)
 {
     quicksort(_OrdenacaoMetricas[indiceMetrica], 0, this->_acoes.tamanho() - 1, indiceMetrica);
+
+    for (unsigned i = 0; i < _OrdenacaoMetricas.getElemento(indiceMetrica).tamanho(); i++)
+    {
+        unsigned idAcao = _OrdenacaoMetricas.getElemento(indiceMetrica).getElemento(i);
+        _PosicaoMetricas.getElemento(indiceMetrica).setElemento(idAcao, i);
+    }
 }
 
 void AnaliseCarteiras::ordenarAcoes()

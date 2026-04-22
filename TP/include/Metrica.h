@@ -7,7 +7,6 @@
 class Metrica
 {
 protected:
-    unsigned _WCOTACOES;
 
     double retornoElementar(const double cotacaoAtual, const double cotacaoAnterior)
     {

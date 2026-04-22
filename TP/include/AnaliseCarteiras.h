@@ -14,6 +14,7 @@ private:
     TADS::Vector<Cliente> _clientes;
     TADS::Vector<std::string> _nomesMetricas;
     TADS::Vector<TADS::Vector<unsigned>> _OrdenacaoMetricas;
+     TADS::Vector<TADS::Vector<unsigned>> _PosicaoMetricas;
     TADS::Vector<unsigned> _ordenacaoGlobalAcoes;
 
     Metrica _metrica;
