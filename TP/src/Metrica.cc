@@ -1,8 +1,6 @@
 #include "Metrica.h"
 
-Metrica::Metrica() : _WCOTACOES(0) {}
-
-Metrica::Metrica(unsigned WCOTACOES) : _WCOTACOES(WCOTACOES) {}
+Metrica::Metrica() {}
 
 double Metrica::RET(Acao &acao)
 {

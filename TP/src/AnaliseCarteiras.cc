@@ -2,7 +2,7 @@
 
 AnaliseCarteiras::AnaliseCarteiras(unsigned wcotacoes) : _wcotacoes(wcotacoes)
 {
-    _metrica = Metrica(wcotacoes);
+    _metrica = Metrica();
 }
 
 void AnaliseCarteiras::iniciarMetricas()

@@ -7,7 +7,6 @@
 class Metrica
 {
 protected:
-    unsigned _WCOTACOES;
 
     double retornoElementar(const double cotacaoAtual, const double cotacaoAnterior)
     {
@@ -16,7 +15,6 @@ protected:
 
 public:
     Metrica();
-    Metrica(unsigned WCOTACOES);
     ~Metrica() = default;
 
     // Métodos para calcular as métricas
