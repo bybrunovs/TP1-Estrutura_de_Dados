@@ -54,5 +54,4 @@ public:
     void VendaAcao(unsigned IDCliente, unsigned IDAcao);
     void CompraAcao(unsigned IDCliente, unsigned IDAcao);
     void AdicionarCotacaoAcao(unsigned IDAcao, double &preco);
-    void AdicionarAcaoCarteira(unsigned IDCliente, unsigned IDAcao);
 };

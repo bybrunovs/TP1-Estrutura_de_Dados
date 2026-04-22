@@ -15,7 +15,6 @@ protected:
 
 public:
     Metrica();
-    Metrica(unsigned WCOTACOES);
     ~Metrica() = default;
 
     // Métodos para calcular as métricas
