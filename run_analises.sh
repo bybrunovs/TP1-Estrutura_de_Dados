@@ -17,7 +17,7 @@ do
         /usr/bin/time -v "$EXECI" < "$IN" > "$OUTPUT" 2> "$DATA"
 
         echo "Processando (sob-demanda): $IN"
-        /usr/bin/time -v "$EXECB" < "$IN" > "$OUTPUT" 2> "$DATA"
+        /usr/bin/time -v "$EXECSB" < "$IN" > "$OUTPUT" 2> "$DATA"
     done
 done
 echo "-------------------------"
