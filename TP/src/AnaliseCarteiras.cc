@@ -10,11 +10,14 @@ void AnaliseCarteiras::iniciarMetricas()
     for (unsigned i = 0; i < _nomesMetricas.tamanho(); i++)
     {
         TADS::Vector<unsigned> ordenacaoMetrica;
+        TADS::Vector<unsigned> posicaoMetrica;
         for (unsigned j = 0; j < _acoes.tamanho(); j++)
         {
             ordenacaoMetrica.push_back(j);
+            posicaoMetrica.push_back(j);
         }
         _OrdenacaoMetricas.push_back(ordenacaoMetrica);
+        _PosicaoMetricas.push_back(posicaoMetrica);
     }
 
     for (unsigned j = 0; j < _acoes.tamanho(); j++)
@@ -92,12 +95,22 @@ void AnaliseCarteiras::ConsultaCarteira(unsigned IdConsulta, unsigned IDCliente,
         for (unsigned i = 0; i < _OrdenacaoMetricas.tamanho(); i++)
         {
             TADS::Vector<unsigned> newOrdenacao;
+            TADS::Vector<unsigned> newPosicao;
             for (unsigned j = 0; j < _acoes.tamanho(); j++)
             {
                 newOrdenacao.push_back(j);
+                newPosicao.push_back(j);
             }
             _OrdenacaoMetricas.getElemento(i) = newOrdenacao;
+            _PosicaoMetricas.getElemento(i) = newPosicao;
         }
+    }
+
+    // Reordenar as métricas usadas na consulta
+    for (unsigned j = 0; j < Nmetricas; j++)
+    {
+        unsigned k = getIndiceMetrica(metricas[j]);
+        ordenarMetrica(k);
     }
 
     // calcular a ordenação global das ações de acordo com as métricas e os pesos
@@ -108,7 +121,8 @@ void AnaliseCarteiras::ConsultaCarteira(unsigned IdConsulta, unsigned IDCliente,
         {
             unsigned k = getIndiceMetrica(metricas[j]);
 
-            pontuacaoGlobal += (_acoes.tamanho() - _OrdenacaoMetricas.getElemento(k).getIndice(i)) * peso[j];
+            unsigned posicao = _PosicaoMetricas.getElemento(k).getElemento(i);
+            pontuacaoGlobal += (_acoes.tamanho() - posicao) * peso[j];
         }
 
         _acoes.getElemento(i).setPontosGlobal(pontuacaoGlobal);
@@ -175,7 +189,6 @@ void AnaliseCarteiras::AdicionarCotacaoAcao(unsigned IDAcao, double &preco)
         // calcular as metricas para as ações
         for (unsigned i = 0; i < _nomesMetricas.tamanho(); i++)
         {
-
             // calcular os pontos para cada ação de acordo com a métrica
             if (_nomesMetricas[i].compare("RET") == 0)
             {
@@ -184,27 +197,21 @@ void AnaliseCarteiras::AdicionarCotacaoAcao(unsigned IDAcao, double &preco)
             }
             else if (_nomesMetricas[i].compare("AVGRET") == 0)
             {
-
                 Acao &acao = _acoes.getElemento(IDAcao);
                 acao.setPontosMetrica(i, _metrica.AVGRET(acao));
             }
             else if (_nomesMetricas[i].compare("CONS") == 0)
             {
-
                 Acao &acao = _acoes.getElemento(IDAcao);
                 acao.setPontosMetrica(i, _metrica.CONS(acao));
             }
             else if (_nomesMetricas[i].compare("STAB") == 0)
             {
-
                 Acao &acao = _acoes.getElemento(IDAcao);
                 acao.setPontosMetrica(i, _metrica.STAB(acao));
             }
             else
                 throw std::invalid_argument("Métrica inválida. As métricas válidas são: RET, AVGRET, CONS e STAB.");
-
-            // ordenar as ações de acordo com as métricas
-            ordenarMetrica(i);
         }
     }
 }
@@ -212,6 +219,12 @@ void AnaliseCarteiras::AdicionarCotacaoAcao(unsigned IDAcao, double &preco)
 void AnaliseCarteiras::ordenarMetrica(unsigned indiceMetrica)
 {
     quicksort(_OrdenacaoMetricas[indiceMetrica], 0, this->_acoes.tamanho() - 1, indiceMetrica);
+    
+    for (unsigned i = 0; i < _OrdenacaoMetricas.getElemento(indiceMetrica).tamanho(); i++)
+    {
+        unsigned idAcao = _OrdenacaoMetricas.getElemento(indiceMetrica).getElemento(i);
+        _PosicaoMetricas.getElemento(indiceMetrica).setElemento(idAcao, i);
+    }
 }
 
 void AnaliseCarteiras::ordenarAcoes()
