@@ -1,11 +1,11 @@
-Clientes, Estrategia, Quantidade de ações, Cotações, Quantidade consultas, Tempo de execução, pico de memória(kb)
-10,imediata,10,10,10,,
-10,sob_demanda,10,10,10,0.00912292,3864
-100,imediata,10,10,10,,
-100,sob_demanda,10,10,10,0.00114956,3992
-1000,imediata,10,10,10,,
-1000,sob_demanda,10,10,10,0.00477554,3960
-10000,imediata,10,10,10,,
-10000,sob_demanda,10,10,10,0.0381777,5364
-100000,imediata,10,10,10,,
-100000,sob_demanda,10,10,10,0.35822,20840
+Qtd.Clientes, Estrategia,Qtd. Ações,Qtd.  Cotações, Qtd. consultas, Tempo de execução(ms), pico de memória(kb)
+10,imediata,10,10,10,0.6274190000000001,3892
+10,sob_demanda,10,10,10,0.576194,3760
+1000,imediata,10,10,10,5.21709,3888
+1000,sob_demanda,10,10,10,8.21498,3864
+10000,imediata,10,10,10,41.1808,5500
+10000,sob_demanda,10,10,10,42.2962,5220
+50000,imediata,10,10,10,176.334,12224
+50000,sob_demanda,10,10,10,175.88400000000001,12264
+100000,imediata,10,10,10,426.719,20696
+100000,sob_demanda,10,10,10,424.993,20732

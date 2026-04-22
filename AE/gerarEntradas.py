@@ -38,15 +38,28 @@ def gerar_entrada(n_acoes, n_clientes, n_cotacoes, n_consultas, nome_arquivo):
             cliente_alvo = random.randint(0, n_clientes - 1)
             f.write(f"Q {i} {cliente_alvo} 3 2 RET 1.5 STAB 0.5\n")
 
-for i in range(5):
-    #variando acoes
-    gerar_entrada(10 ** (i + 1), 10, 10, 10, f"AE/entradas/acoes{i}.txt")
 
-    #variando cliente
-    gerar_entrada(10,10 ** (i + 1), 10, 10, f"AE/entradas/cliente{i}.txt")
+# for i in range(5):
+#     #variando acoes
+#     gerar_entrada(10 ** (i + 1), 10, 10, 10, f"AE/entradas/acoes{i}.txt")
 
-    #variando cotacoes
-    gerar_entrada(10, 10,10 ** (i + 1), 10, f"AE/entradas/cotacoes{i}.txt")
+#     #variando cliente
+#     gerar_entrada(10,10 ** (i + 1), 10, 10, f"AE/entradas/cliente{i}.txt")
 
-    #variando consultas
-    gerar_entrada(10, 10, 10,10 ** (i + 1), f"AE/entradas/consultas{i}.txt")
+#     #variando cotacoes
+#     gerar_entrada(10, 10,10 ** (i + 1), 10, f"AE/entradas/cotacoes{i}.txt")
+
+#     #variando consultas
+#     gerar_entrada(10, 10, 10,10 ** (i + 1), f"AE/entradas/consultas{i}.txt")
+
+# acoes
+gerar_entrada(50000, 10, 10, 10, f"AE/entradas/acoes5.txt")
+
+# cliente
+gerar_entrada(10,50000, 10, 10, f"AE/entradas/cliente5.txt")
+
+#varando cotacoes
+gerar_entrada(10, 10,50000, 10, f"AE/entradas/cotacoes5.txt")
+
+# consultas
+gerar_entrada(10, 10, 10,50000, f"AE/entradas/consultas5.txt")
