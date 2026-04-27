@@ -1,3 +1,11 @@
+/**
+ * @file AnaliseCarteiras.h
+ * @author Bruno Vieira
+ * @brief Classe central que controla a análise dinâmica de carteiras de ações
+ * @version 0.1
+ * @date 2025-04-22
+ */
+
 #include "Acao.h"
 #include "Cliente.h"
 #include "Metrica.h"
@@ -12,10 +20,10 @@ class AnaliseCarteiras
 private:
     TADS::Vector<Acao> _acoes;
     TADS::Vector<Cliente> _clientes;
-    TADS::Vector<std::string> _nomesMetricas;
-    TADS::Vector<TADS::Vector<unsigned>> _OrdenacaoMetricas;
-    TADS::Vector<TADS::Vector<unsigned>> _PosicaoMetricas;  // Mapeia ação -> posição na ordenação de cada métrica
-    TADS::Vector<unsigned> _ordenacaoGlobalAcoes;
+    TADS::Vector<std::string> _nomesMetricas; // Nomes das métricas na ordem em que foram adicionadas na linha M
+    TADS::Vector<TADS::Vector<unsigned>> _OrdenacaoMetricas; // Para cada métrica, um vetor que ordena os índices das ações de acordo com os pontos nessa métrica
+    TADS::Vector<TADS::Vector<unsigned>> _PosicaoMetricas;  // Mapeia ação -> posição na ordenação de cada métrica em _OrdenacaoMetricas
+    TADS::Vector<unsigned> _ordenacaoGlobalAcoes; // Ordenação global das ações de acordo com a pontuação global
 
     Metrica _metrica;
     unsigned _wcotacoes = 0;
@@ -54,5 +62,4 @@ public:
     void VendaAcao(unsigned IDCliente, unsigned IDAcao);
     void CompraAcao(unsigned IDCliente, unsigned IDAcao);
     void AdicionarCotacaoAcao(unsigned IDAcao, double &preco);
-    void AdicionarAcaoCarteira(unsigned IDCliente, unsigned IDAcao);
 };

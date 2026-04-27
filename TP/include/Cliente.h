@@ -1,3 +1,10 @@
+/**
+ * @file Cliente.h
+ * @author Bruno Vieira
+ * @brief representa um cliente no sistema
+ * @version 0.1
+ * @date 2025-04-22
+ */
 #pragma once
 
 #include <ostream>

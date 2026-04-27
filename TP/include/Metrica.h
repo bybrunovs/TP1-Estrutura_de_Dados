@@ -1,3 +1,11 @@
+/**
+ * @file Metrica.h
+ * @author Bruno Vieira
+ * @brief reune todas as metricas possiveis de ser cálculadas
+ * @version 0.1
+ * @date 2025-04-22
+ */
+
 #pragma once
 
 #include <string>

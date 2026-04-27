@@ -86,6 +86,8 @@ void AnaliseCarteiras::AdicionarMetrica(const std::string &Metrica)
 
 void AnaliseCarteiras::ConsultaCarteira(unsigned IdConsulta, unsigned IDCliente, unsigned Nacoes, unsigned Nmetricas, const std::string *metricas, double peso[])
 {
+    // A consulta só é válida após a definição de ações e clientes.
+    // Reordena as métricas solicitadas e calcula a pontuação global da ação.
     if (!_entrouA || !_entrouU)
         throw std::invalid_argument("Entrada inválida: a linha de consulta deve vir após as linhas de ações e clientes");
 
@@ -113,7 +115,7 @@ void AnaliseCarteiras::ConsultaCarteira(unsigned IdConsulta, unsigned IDCliente,
         ordenarMetrica(k);
     }
 
-    // calcular a ordenação global das ações de acordo com as métricas e os pesos
+    // calcular a potuação global das ações de acordo com a posição nas métricas e os pesos
     for (unsigned i = 0; i < _acoes.tamanho(); i++)
     {
         double pontuacaoGlobal = 0.0;
@@ -136,6 +138,7 @@ void AnaliseCarteiras::ConsultaCarteira(unsigned IdConsulta, unsigned IDCliente,
 
     // imprimir as N ações da carteira do cliente com melhor e pior pontuação de acordo com as métricas
     Cliente &cliente = _clientes.getElemento(IDCliente);
+
     // Melores ações da carteira do cliente
     for (size_t i = 0; i < Nacoes && i < cliente.getNumeroAcoes(); i++)
     {
@@ -287,10 +290,10 @@ double AnaliseCarteiras::partition(TADS::Vector<unsigned> &metrica, unsigned low
         _acoes.getElemento(metrica.getElemento(mid)).getPontosMetrica(indiceMetrica), mid,
         _acoes.getElemento(metrica.getElemento(high)).getPontosMetrica(indiceMetrica), high);
 
-    // Trocar o elemento mediano com o elemento em 'high' para que o pivô fique na posição correta
+    // Trocar o elemento mediano com o elemento em high para usar como pivô
     swap(metrica.getElemento(indexPivot), metrica.getElemento(high));
 
-    // Agora o pivô está em 'high', como esperado
+    // Agora o pivô está em high
     indexPivot = metrica.getElemento(high);
     double pivot = _acoes.getElemento(indexPivot).getPontosMetrica(indiceMetrica);
     int i = (int)low - 1;
@@ -317,7 +320,7 @@ double AnaliseCarteiras::partition(TADS::Vector<unsigned> &ordenacaoGlobalAcoes,
         _acoes.getElemento(ordenacaoGlobalAcoes.getElemento(mid)).getPontosGlobal(), mid,
         _acoes.getElemento(ordenacaoGlobalAcoes.getElemento(high)).getPontosGlobal(), high);
 
-    // Trocar o elemento mediano com o elemento em 'high'
+    // Trocar o elemento mediano com o elemento em high
     swap(ordenacaoGlobalAcoes.getElemento(indexPivot), ordenacaoGlobalAcoes.getElemento(high));
 
     // Pivô agora em 'high'
@@ -347,10 +350,10 @@ double AnaliseCarteiras::partition(TADS::Vector<Acao *> &ordenacaoCarteiraClient
         ordenacaoCarteiraCliente.getElemento(mid)->getPontosGlobal(), mid,
         ordenacaoCarteiraCliente.getElemento(high)->getPontosGlobal(), high);
 
-    // Trocar o elemento mediano com o elemento em 'high'
+    // Trocar o elemento mediano com o elemento em high
     swap(ordenacaoCarteiraCliente.getElemento(indexPivot), ordenacaoCarteiraCliente.getElemento(high));
 
-    // Pivô agora em 'high'
+    // Pivô agora em high
     Acao *acaoPivot = ordenacaoCarteiraCliente.getElemento(high);
     double pivot = acaoPivot->getPontosGlobal();
     unsigned pivotId = acaoPivot->getId();
