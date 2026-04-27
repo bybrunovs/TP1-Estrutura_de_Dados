@@ -7,6 +7,10 @@
 #include "Vector.h"
 #include "Metrica.h"
 
+// O programa lê uma linha inicial M seguida por várias linhas de comando
+// O código principal faz parsing dessas linhas e chama os métodos
+// de AnaliseCarteiras para executar a lógica do sistema.
+
 // começa a contar  o tempo de execucao
 // auto start = std::chrono::high_resolution_clock::now();
 
@@ -24,9 +28,10 @@ int main(int argc, char *argv[])
 
         ss >> token;
 
+        // A primeira linha do tipo 'M' seguida por métricas
         if (token != "M")
         {
-            throw std::invalid_argument("Entrada inválida: a primeira linha deve ser do tipo 'M'");
+            throw std::invalid_argument("Entrada " + token + " inválida: a primeira linha deve ser do tipo 'M'");
         }
 
         unsigned wcotacoes;
@@ -34,10 +39,14 @@ int main(int argc, char *argv[])
 
         AnaliseCarteiras analiseCarteiras(wcotacoes);
 
+
+        // Ler as métricas da linha M e adicioná-las ao sistema
         while (ss >> token)
         {
             analiseCarteiras.AdicionarMetrica(token);
         }
+
+        // Processar as linhas de comando até o fim da entrada
 
         while (getline(std::cin, linha))
         {
@@ -102,14 +111,14 @@ int main(int argc, char *argv[])
                 analiseCarteiras.ConsultaCarteira(IdConsulta, IDCliente, Nacoes, Nmetricas, metricas, peso);
             }
             else
-                throw std::invalid_argument("Entrada inválida: tipo de linha desconhecido. As linhas válidas são: A, U, P, B, V e Q.");
+                throw std::invalid_argument("Entrada " + token + " inválida: tipo de linha desconhecido. As linhas válidas são: A, U, P, B, V e Q.");
         }
     }
     catch (const std::exception &e)
     {
         std::cerr << e.what() << '\n';
     }
-
+    
     // Calculo tempo de execução
     // auto end = std::chrono::high_resolution_clock::now();
     // std::chrono::duration<double> duracao = end - start;

@@ -14,7 +14,7 @@ void AnaliseCarteiras::iniciarMetricas()
         for (unsigned j = 0; j < _acoes.tamanho(); j++)
         {
             ordenacaoMetrica.push_back(j);
-             posicaoMetrica.push_back(j);
+            posicaoMetrica.push_back(j);
         }
         _OrdenacaoMetricas.push_back(ordenacaoMetrica);
         _PosicaoMetricas.push_back(posicaoMetrica);
@@ -86,20 +86,25 @@ void AnaliseCarteiras::AdicionarMetrica(const std::string &Metrica)
 
 void AnaliseCarteiras::ConsultaCarteira(unsigned IdConsulta, unsigned IDCliente, unsigned Nacoes, unsigned Nmetricas, const std::string *metricas, double peso[])
 {
+    // A consulta só é válida após a definição de ações e clientes.
+    // Reordena as métricas solicitadas e calcula a pontuação global da ação.
     if (!_entrouA || !_entrouU)
         throw std::invalid_argument("Entrada inválida: a linha de consulta deve vir após as linhas de ações e clientes");
 
     // Inicializar as ordenações das métricas se necessário
-    if (_OrdenacaoMetricas.tamanho() > 0 && _OrdenacaoMetricas.getElemento(0).tamanho() != _acoes.tamanho()) {
-        for (unsigned i = 0; i < _OrdenacaoMetricas.tamanho(); i++) {
+    if (_OrdenacaoMetricas.tamanho() > 0 && _OrdenacaoMetricas.getElemento(0).tamanho() != _acoes.tamanho())
+    {
+        for (unsigned i = 0; i < _OrdenacaoMetricas.tamanho(); i++)
+        {
             TADS::Vector<unsigned> newOrdenacao;
-              TADS::Vector<unsigned> newPosicao;
-            for (unsigned j = 0; j < _acoes.tamanho(); j++) {
+            TADS::Vector<unsigned> newPosicao;
+            for (unsigned j = 0; j < _acoes.tamanho(); j++)
+            {
                 newOrdenacao.push_back(j);
                 newPosicao.push_back(j);
             }
             _OrdenacaoMetricas.getElemento(i) = newOrdenacao;
-             _PosicaoMetricas.getElemento(i) = newPosicao;
+            _PosicaoMetricas.getElemento(i) = newPosicao;
         }
     }
 
@@ -150,7 +155,7 @@ void AnaliseCarteiras::ConsultaCarteira(unsigned IdConsulta, unsigned IDCliente,
         ordenarMetrica(k);
     }
 
-    // calcular a ordenação global das ações de acordo com as métricas e os pesos
+ // calcular a potuação global das ações de acordo com a posição nas métricas e os pesos
     for (unsigned i = 0; i < _acoes.tamanho(); i++)
     {
         unsigned idAcao = _acoes.getElemento(i).getId();
@@ -174,6 +179,7 @@ void AnaliseCarteiras::ConsultaCarteira(unsigned IdConsulta, unsigned IDCliente,
 
     // imprimir as N ações da carteira do cliente com melhor e pior pontuação de acordo com as métricas
     Cliente &cliente = _clientes.getElemento(IDCliente);
+
     // Melores ações da carteira do cliente
     for (size_t i = 0; i < Nacoes && i < cliente.getNumeroAcoes(); i++)
     {
@@ -295,10 +301,10 @@ double AnaliseCarteiras::partition(TADS::Vector<unsigned> &metrica, unsigned low
         _acoes.getElemento(metrica.getElemento(mid)).getPontosMetrica(indiceMetrica), mid,
         _acoes.getElemento(metrica.getElemento(high)).getPontosMetrica(indiceMetrica), high);
 
-    // Trocar o elemento mediano com o elemento em 'high' para que o pivô fique na posição correta
+    // Trocar o elemento mediano com o elemento em high para usar como pivô e evitar pior caso de desempenho
     swap(metrica.getElemento(indexPivot), metrica.getElemento(high));
 
-    // Agora o pivô está em 'high', como esperado
+    // Agora o pivô está em high
     indexPivot = metrica.getElemento(high);
     double pivot = _acoes.getElemento(indexPivot).getPontosMetrica(indiceMetrica);
     int i = (int)low - 1;
@@ -325,10 +331,10 @@ double AnaliseCarteiras::partition(TADS::Vector<unsigned> &ordenacaoGlobalAcoes,
         _acoes.getElemento(ordenacaoGlobalAcoes.getElemento(mid)).getPontosGlobal(), mid,
         _acoes.getElemento(ordenacaoGlobalAcoes.getElemento(high)).getPontosGlobal(), high);
 
-    // Trocar o elemento mediano com o elemento em 'high'
+    // Trocar o elemento mediano com o elemento em high
     swap(ordenacaoGlobalAcoes.getElemento(indexPivot), ordenacaoGlobalAcoes.getElemento(high));
 
-    // Pivô agora em 'high'
+    // Pivô agora em high
     indexPivot = ordenacaoGlobalAcoes.getElemento(high);
     double pivot = _acoes.getElemento(indexPivot).getPontosGlobal();
     int i = (int)low - 1;
@@ -355,10 +361,10 @@ double AnaliseCarteiras::partition(TADS::Vector<Acao *> &ordenacaoCarteiraClient
         ordenacaoCarteiraCliente.getElemento(mid)->getPontosGlobal(), mid,
         ordenacaoCarteiraCliente.getElemento(high)->getPontosGlobal(), high);
 
-    // Trocar o elemento mediano com o elemento em 'high'
+    // Trocar o elemento mediano com o elemento em high
     swap(ordenacaoCarteiraCliente.getElemento(indexPivot), ordenacaoCarteiraCliente.getElemento(high));
 
-    // Pivô agora em 'high'
+    // Pivô agora em high
     Acao *acaoPivot = ordenacaoCarteiraCliente.getElemento(high);
     double pivot = acaoPivot->getPontosGlobal();
     unsigned pivotId = acaoPivot->getId();
@@ -408,6 +414,8 @@ unsigned AnaliseCarteiras::encontrarMediana(double a, unsigned indicea, double b
         return indicec;
 }
 
+
+// Função para comparar doubles com uma tolerância
 bool AnaliseCarteiras::doubleEquals(double a, double b)
 {
     const double epsilon = 1e-9;

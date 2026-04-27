@@ -3,18 +3,21 @@ namespace TADS
     template <typename T>
     Vector<T>::Vector() : _capacidade(0), _tamanho(0)
     {
+        // Inicia sem alocar memória, o primeiro push_back criará a capacidade.
         this->_dados = nullptr;
     }
 
     template <typename T>
     Vector<T>::Vector(unsigned capacidade) : _capacidade(capacidade), _tamanho(0)
     {
+        // Aloca o buffer inicial com a capacidade especificada.
         this->_dados = new T[capacidade];
     }
 
     template <typename T>
     Vector<T>::Vector(const Vector &outro) : _capacidade(outro._capacidade), _tamanho(outro._tamanho)
     {
+        // copia os dados do vetor original para um novo buffer.
         this->_dados = new T[outro._capacidade];
         for (unsigned i = 0; i < outro.tamanho(); i++)
         {
@@ -25,6 +28,7 @@ namespace TADS
     template <typename T>
     void Vector<T>::push_back(const T &elemento)
     {
+        // Insere no fim sempre que houver espaço disponível.
         if (this->tamanho() + 1 <= this->_capacidade)
         {
             this->_dados[this->_tamanho] = elemento;
@@ -32,6 +36,7 @@ namespace TADS
         }
         else
         {
+            // Se não houver capacidade, multiplica por 2.
             if (this->_capacidade == 0)
             {
                 this->_capacidade = 1;
@@ -77,6 +82,7 @@ namespace TADS
     {
         if (indice < _tamanho)
         {
+            // Desloca os elementos subsequentes para preencher o espaço vazio.
             for (unsigned i = indice; i < this->_tamanho - 1; i++)
             {
                 this->_dados[i] = this->_dados[i + 1];
@@ -101,7 +107,7 @@ namespace TADS
     }
 
     template <typename T>
-    unsigned Vector<T>::getIndice(const T &elemento) const
+    int Vector<T>::getIndice(const T &elemento) const
     {
         for (unsigned i = 0; i < this->_tamanho; i++)
         {
@@ -110,7 +116,7 @@ namespace TADS
                 return i;
             }
         }
-        throw std::out_of_range("Elemento não encontrado");
+        return -1; // Retorna -1 se o elemento não for encontrado.
     }
 
     template <typename T>
@@ -138,6 +144,7 @@ namespace TADS
     {
         if (this != &outro)
         {
+            // Remove o buffer anterior e copia o conteúdo do outro vetor.
             delete[] _dados;
             _capacidade = outro._capacidade;
             _tamanho = outro._tamanho;
@@ -165,6 +172,7 @@ namespace TADS
     template <typename T>
     Vector<T>::~Vector()
     {
+        // Libera a memória dinâmica usada pelo vetor.
         delete[] this->_dados;
     }
 
